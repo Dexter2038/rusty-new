@@ -55,3 +55,7 @@ It's not official. It's better.
 
 Let me know if you want badges, install sections for the future, or a snarkier "FAQ" for people who inevitably ask why it's not on crates.io yet.
 
+## 📝 License
+
+This project is licensed under the **Apache License 2.0** - see the [LICENSE](./LICENSE) file for details.
+
