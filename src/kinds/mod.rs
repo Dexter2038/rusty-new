@@ -1,10 +1,12 @@
+use inquire::Select;
 use webapp::WebAppConfig;
 
 pub mod embedded;
 pub mod gamedev;
 pub mod webapp;
 
-pub enum ProjectType {
+#[derive(strum_macros::Display)]
+pub enum ProjectKind {
     WebApp(WebAppConfig),
     CliApp,
     Library,
@@ -12,15 +14,24 @@ pub enum ProjectType {
     Game,
 }
 
-impl std::fmt::Display for ProjectType {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let s = match self {
-            ProjectType::WebApp(_) => "Web App",
-            ProjectType::CliApp => "CLI App",
-            ProjectType::Library => "Library",
-            ProjectType::Embedded => "Embedded",
-            ProjectType::Game => "Game",
-        };
-        write!(f, "{}", s)
+impl ProjectKind {
+    pub fn new() -> Result<ProjectKind, Box<dyn std::error::Error>> {
+        let kinds = vec![
+            ProjectKind::WebApp(WebAppConfig::new()),
+            ProjectKind::CliApp,
+            ProjectKind::Library,
+            ProjectKind::Embedded,
+            ProjectKind::Game,
+        ];
+        match Select::new("What type of project do you want to create?", kinds).prompt()? {
+            ProjectKind::WebApp(mut config) => {
+                config.populate();
+                Ok(ProjectKind::WebApp(config))
+            }
+            ProjectKind::CliApp => Ok(ProjectKind::CliApp),
+            ProjectKind::Library => Ok(ProjectKind::Library),
+            ProjectKind::Embedded => Ok(ProjectKind::Embedded),
+            ProjectKind::Game => Ok(ProjectKind::Game),
+        }
     }
 }

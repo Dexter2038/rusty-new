@@ -4,9 +4,7 @@
 use crate::color::{EMBER_RED, FERRIS_TEAL, JET_BLACK, PURE_WHITE, RUST_ORANGE, STEEL_GRAY};
 
 use colored::{self, Colorize};
-use config::get_render_cfg;
-use inquire::Select;
-use kinds::{ProjectType, webapp::WebAppConfig};
+use kinds::ProjectKind;
 
 mod color;
 mod config;
@@ -20,17 +18,9 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         "fast, idiomatic, async Rust scaffolding".custom_color(STEEL_GRAY)
     );
 
-    let project_types = vec![
-        ProjectType::WebApp(WebAppConfig::new()),
-        ProjectType::CliApp,
-        ProjectType::Library,
-        ProjectType::Embedded,
-        ProjectType::Game,
-    ];
+    let project_type = ProjectKind::new()?;
 
-    Select::new("What type of project do you want to create?", project_types)
-        .with_render_config(get_render_cfg())
-        .prompt()?;
+    println!("{project_type}");
 
     Ok(())
 }
