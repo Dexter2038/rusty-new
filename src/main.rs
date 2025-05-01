@@ -4,42 +4,13 @@
 use crate::color::{EMBER_RED, FERRIS_TEAL, JET_BLACK, PURE_WHITE, RUST_ORANGE, STEEL_GRAY};
 
 use colored::{self, Colorize};
-use inquire::{
-    Select,
-    ui::{RenderConfig, StyleSheet},
-};
+use config::get_render_cfg;
+use inquire::Select;
+use kinds::{ProjectType, webapp::WebAppConfig};
 
 mod color;
-
-pub enum ProjectType {
-    WebApp,
-    CliApp,
-    Library,
-    Embedded,
-    Game,
-}
-
-impl std::fmt::Display for ProjectType {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let s = match self {
-            ProjectType::WebApp => "Web App",
-            ProjectType::CliApp => "CLI App",
-            ProjectType::Library => "Library",
-            ProjectType::Embedded => "Embedded",
-            ProjectType::Game => "Game",
-        };
-        write!(f, "{}", s)
-    }
-}
-
-fn get_render_cfg() -> RenderConfig<'static> {
-    let option_style = StyleSheet::default().with_fg(STEEL_GRAY.into());
-    let answer_style = StyleSheet::default().with_fg(RUST_ORANGE.into());
-    RenderConfig::default()
-        .with_option(option_style)
-        .with_answer(answer_style)
-        .with_selected_option(Some(answer_style))
-}
+mod config;
+mod kinds;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!(
@@ -50,18 +21,16 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     );
 
     let project_types = vec![
-        ProjectType::WebApp,
+        ProjectType::WebApp(WebAppConfig::new()),
         ProjectType::CliApp,
         ProjectType::Library,
         ProjectType::Embedded,
         ProjectType::Game,
     ];
 
-    let result = Select::new("What type of project do you want to create?", project_types)
-        .with_vim_mode(true)
+    Select::new("What type of project do you want to create?", project_types)
         .with_render_config(get_render_cfg())
         .prompt()?;
-    println!("{}", result);
 
     Ok(())
 }
