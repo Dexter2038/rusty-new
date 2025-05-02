@@ -138,20 +138,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "create-rust-app"
-version = "0.1.0"
-dependencies = [
- "clap",
- "colored",
- "fs_extra",
- "inquire",
- "serde",
- "serde_json",
- "strum",
- "strum_macros",
-]
-
-[[package]]
 name = "crossterm"
 version = "0.25.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -351,6 +337,20 @@ name = "rustversion"
 version = "1.0.20"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "eded382c5f5f786b989652c49544c4877d9f015cc22e145a5ea8ea66c2921cd2"
+
+[[package]]
+name = "rusty-new"
+version = "0.1.0"
+dependencies = [
+ "clap",
+ "colored",
+ "fs_extra",
+ "inquire",
+ "serde",
+ "serde_json",
+ "strum",
+ "strum_macros",
+]
 
 [[package]]
 name = "ryu"

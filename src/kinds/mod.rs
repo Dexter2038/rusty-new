@@ -1,6 +1,8 @@
 use inquire::Select;
 use webapp::WebAppConfig;
 
+use crate::config::get_render_cfg;
+
 pub mod embedded;
 pub mod gamedev;
 pub mod webapp;
@@ -23,7 +25,10 @@ impl ProjectKind {
             ProjectKind::Embedded,
             ProjectKind::Game,
         ];
-        match Select::new("What type of project do you want to create?", kinds).prompt()? {
+        match Select::new("What type of project do you want to create?", kinds)
+            .with_render_config(get_render_cfg())
+            .prompt()?
+        {
             ProjectKind::WebApp(mut config) => {
                 config.populate();
                 Ok(ProjectKind::WebApp(config))

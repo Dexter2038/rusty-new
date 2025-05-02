@@ -14,7 +14,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!(
         "{}  {}\n    {}",
         "🦀".custom_color(RUST_ORANGE),
-        "create-rust-app".custom_color(FERRIS_TEAL),
+        "rusty-new".custom_color(FERRIS_TEAL),
         "fast, idiomatic, async Rust scaffolding".custom_color(STEEL_GRAY)
     );
 

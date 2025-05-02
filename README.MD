@@ -1,9 +1,9 @@
-# 🦀 create-rust-app
+# 🦀 rusty-new
 
 > The unofficial, community-driven way to kickstart modern Rust projects.
 
 Whether you're building a web API, CLI tool, game, or something embedded and weird, 
-`create-rust-app` helps you spin up opinionated templates fast — with support for async runtimes, 
+`rusty-new` helps you spin up opinionated templates fast — with support for async runtimes, 
 frameworks like Axum, Bevy, and more.
 
 Choose your stack, generate the boilerplate, and ship something spicy.
@@ -12,20 +12,20 @@ Choose your stack, generate the boilerplate, and ship something spicy.
 
 ## ⚠️ Not published on `crates.io` yet
 
-This project is still under active development. There's no `cargo install create-rust-app` — **yet**.
+This project is still under active development. There's no `cargo install rusty-new` — **yet**.
 
 To try it out, you'll need to clone this repo and build it locally:
 
 ```bash
-git clone https://github.com/Dexter2038/create-rust-app
-cd create-rust-app
+git clone https://github.com/Dexter2038/rusty-new
+cd rusty-new
 cargo build --release
 ```
 
 You can then run it from the target directory:
 
 ```bash
-./target/release/create-rust-app
+./target/release/rusty-new
 ```
 
 💡 Powered by the Rustacean community
