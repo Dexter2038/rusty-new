@@ -2,6 +2,8 @@ use inquire::{MultiSelect, Select};
 
 use crate::config::get_render_cfg;
 
+use super::BuildConfig;
+
 #[derive(Default)]
 pub struct WebAppConfig {
     pub kind: Option<WebApp>,
@@ -13,8 +15,11 @@ pub struct WebAppConfig {
     pub features: Vec<Features>,
 }
 
-impl WebAppConfig {
-    pub fn new() -> Result<Self, Box<dyn std::error::Error>> {
+impl BuildConfig for WebAppConfig {
+    fn build() -> Result<Self, Box<dyn std::error::Error>>
+    where
+        Self: Sized,
+    {
         let mut config = Self::default();
         let kind = Select::new(
             "Select a webapp kind",
@@ -45,7 +50,7 @@ impl WebAppConfig {
                 .with_render_config(get_render_cfg())
                 .prompt()?;
 
-            self.set_database(database);
+            config.set_database(database);
         }
 
         if let Some(deployments) = config.get_deployment_options() {
@@ -73,7 +78,9 @@ impl WebAppConfig {
         }
         Ok(config)
     }
+}
 
+impl WebAppConfig {
     pub fn get_backends_options(&self) -> Option<Vec<Backend>> {
         if self.kind.clone().unwrap() == WebApp::Frontend {
             return None;
