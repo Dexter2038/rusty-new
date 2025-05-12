@@ -1,5 +1,8 @@
 use inquire::{MultiSelect, Select};
 
+use crate::config::get_render_cfg;
+
+#[derive(Default)]
 pub struct WebAppConfig {
     pub kind: Option<WebApp>,
     pub backend: Option<Backend>,
@@ -11,16 +14,64 @@ pub struct WebAppConfig {
 }
 
 impl WebAppConfig {
-    pub fn new() -> WebAppConfig {
-        WebAppConfig {
-            kind: None,
-            backend: None,
-            frontend: None,
-            database: None,
-            deployment: None,
-            testings: Vec::new(),
-            features: Vec::new(),
+    pub fn new() -> Result<Self, Box<dyn std::error::Error>> {
+        let mut config = Self::default();
+        let kind = Select::new(
+            "Select a webapp kind",
+            vec![WebApp::Backend, WebApp::Frontend, WebApp::Fullstack],
+        )
+        .with_render_config(get_render_cfg())
+        .prompt()?;
+        config.set_kind(kind);
+
+        if let Some(backends) = config.get_backends_options() {
+            let backend = Select::new("Select a backend", backends)
+                .with_render_config(get_render_cfg())
+                .prompt()?;
+
+            config.set_backend(backend);
         }
+
+        if let Some(frontends) = config.get_frontends_options() {
+            let frontend = Select::new("Select a frontend tech", frontends)
+                .with_render_config(get_render_cfg())
+                .prompt()?;
+
+            config.set_frontend(frontend);
+        }
+
+        if let Some(databases) = config.get_databases_options() {
+            let database = Select::new("Select a database", databases)
+                .with_render_config(get_render_cfg())
+                .prompt()?;
+
+            self.set_database(database);
+        }
+
+        if let Some(deployments) = config.get_deployment_options() {
+            let deployment = Select::new("Select a deployment option", deployments)
+                .with_render_config(get_render_cfg())
+                .prompt()?;
+
+            config.set_deployment(deployment);
+        }
+
+        if let Some(testings) = config.get_testing_options() {
+            let testings = MultiSelect::new("Select testing options", testings)
+                .with_render_config(get_render_cfg())
+                .prompt()?;
+
+            config.add_testings(testings);
+        }
+
+        if let Some(features) = config.get_features_options() {
+            let features = MultiSelect::new("Select features", features)
+                .with_render_config(get_render_cfg())
+                .prompt()?;
+
+            config.add_features(features);
+        }
+        Ok(config)
     }
 
     pub fn get_backends_options(&self) -> Option<Vec<Backend>> {
@@ -140,52 +191,6 @@ impl WebAppConfig {
 
     pub fn add_features(&mut self, feature: Vec<Features>) {
         self.features.extend(feature);
-    }
-
-    pub fn populate(&mut self) -> Result<(), Box<dyn std::error::Error>> {
-        let kind = Select::new(
-            "Select a webapp kind",
-            vec![WebApp::Backend, WebApp::Frontend, WebApp::Fullstack],
-        )
-        .prompt()?;
-        self.set_kind(kind);
-
-        if let Some(backends) = self.get_backends_options() {
-            let backend = Select::new("Select a backend", backends).prompt()?;
-
-            self.set_backend(backend);
-        }
-
-        if let Some(frontends) = self.get_frontends_options() {
-            let frontend = Select::new("Select a frontend tech", frontends).prompt()?;
-
-            self.set_frontend(frontend);
-        }
-
-        if let Some(databases) = self.get_databases_options() {
-            let database = Select::new("Select a database", databases).prompt()?;
-
-            self.set_database(database);
-        }
-
-        if let Some(deployments) = self.get_deployment_options() {
-            let deployment = Select::new("Select a deployment option", deployments).prompt()?;
-
-            self.set_deployment(deployment);
-        }
-
-        if let Some(testings) = self.get_testing_options() {
-            let testings = MultiSelect::new("Select testing options", testings).prompt()?;
-
-            self.add_testings(testings);
-        }
-
-        if let Some(features) = self.get_features_options() {
-            let features = MultiSelect::new("Select features", features).prompt()?;
-
-            self.add_features(features);
-        }
-        Ok(())
     }
 }
 

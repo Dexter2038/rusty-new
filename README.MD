@@ -1,9 +1,9 @@
-# 🦀 rusty-new
+# 🦀 rise (rust initial setup engine)
 
 > The unofficial, community-driven way to kickstart modern Rust projects.
 
 Whether you're building a web API, CLI tool, game, or something embedded and weird, 
-`rusty-new` helps you spin up opinionated templates fast — with support for async runtimes, 
+`rise` helps you spin up opinionated templates fast — with support for async runtimes, 
 frameworks like Axum, Bevy, and more.
 
 Choose your stack, generate the boilerplate, and ship something spicy.
@@ -12,20 +12,20 @@ Choose your stack, generate the boilerplate, and ship something spicy.
 
 ## ⚠️ Not published on `crates.io` yet
 
-This project is still under active development. There's no `cargo install rusty-new` — **yet**.
+This project is still under active development. There's no `cargo install rise` — **yet**.
 
 To try it out, you'll need to clone this repo and build it locally:
 
 ```bash
-git clone https://github.com/Dexter2038/rusty-new
-cd rusty-new
+git clone https://github.com/Dexter2038/rise
+cd rise
 cargo build --release
 ```
 
 You can then run it from the target directory:
 
 ```bash
-./target/release/rusty-new
+./target/release/rise
 ```
 
 💡 Powered by the Rustacean community
